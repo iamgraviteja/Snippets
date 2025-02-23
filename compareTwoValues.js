@@ -17,6 +17,11 @@ function checkEquality(arg1, arg2) {
       return false;
     }
   } else if (
+    (Array.isArray(arg1) && Object.getPrototypeOf(arg2) === Object.prototype) ||
+    (Array.isArray(arg2) && Object.getPrototypeOf(arg1) === Object.prototype)
+  ) {
+    return false;
+  } else if (
     arg1 !== null &&
     arg2 !== null &&
     typeof arg1 === "object" &&
@@ -30,6 +35,7 @@ function checkEquality(arg1, arg2) {
           return false;
         }
       }
+      return true;
     }
   }
   return arg1 === arg2;
@@ -39,3 +45,5 @@ console.log(checkEquality(1, 1));
 console.log(checkEquality(1, 2));
 console.log(checkEquality([1, 2, 3], [1, 2, 3]));
 console.log(checkEquality([1, 2, 3], [2, 3, 1]));
+console.log(checkEquality([1, { a: 2 }], [2, 3, 1]));
+console.log(checkEquality([1, { a: 2 }], [1, { a: 2 }]));
